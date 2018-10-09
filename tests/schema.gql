@@ -44,6 +44,17 @@ type SampleError {
     message: String!
 }
 
+enum Awesomeness {
+  MUCH
+  LITTLE
+}
+
+enum Color {
+  RED
+  BLUE
+  GREEN
+}
+
 enum SampleField {
     FIRST
     SECOND

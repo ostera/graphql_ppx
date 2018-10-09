@@ -67,7 +67,7 @@ let mapper argv =
   let open Location in
   let open Asttypes in
 
-  let () = 
+  let () =
   Log.is_verbose := match List.find ((=) "-verbose") argv with
     | _ -> true
     | exception Not_found -> false

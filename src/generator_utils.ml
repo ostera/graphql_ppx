@@ -41,3 +41,14 @@ let filter_map f l =
     | None -> loop acc tail
     | Some v -> loop (v :: acc) tail
   in loop [] l
+
+let is_prefixed : string -> string -> bool = fun prefix str ->
+  let i = 0 in
+  let len = String.length prefix in
+  let j = ref 0 in
+  while !j < len && String.unsafe_get prefix !j =
+                    String.unsafe_get str (i + !j) do
+    incr j
+  done;
+  (!j = len)
+

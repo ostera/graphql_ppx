@@ -1,3 +1,3 @@
 (alias
- (name graphql_ppx)
- (deps src/graphql_ppx.exe))
+ (name graphql_typegen)
+ (deps src/graphql_typegen.exe))

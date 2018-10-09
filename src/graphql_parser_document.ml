@@ -110,6 +110,7 @@ and parse_optional_selection_set parser = match peek parser with
 
 
 and parse_field parser = Result_ext.(
+    Log.log "parse_field";
     let parse_rest alias name =
       parse_arguments parser
       |> flat_map (fun arguments -> parse_directives parser |> map (make_t2 arguments))
@@ -192,7 +193,9 @@ and parse_fragment parser = Result_ext.(
 and parse_selection parser =
   match peek parser with
   | { item = Graphql_lexer.Ellipsis } -> parse_fragment parser
-  | _ -> Result_ext.map (fun (span: field spanning) -> Field span) (parse_field parser)
+  | _ ->
+    Log.log "parse_selection";
+    Result_ext.map (fun (span: field spanning) -> Field span) (parse_field parser)
 
 let parse_operation_type parser = match next parser with
   | Error e -> Error e
@@ -204,7 +207,9 @@ let parse_operation_type parser = match next parser with
 let parse_operation_definition parser = Result_ext.(
     match peek parser with
     | { item = Graphql_lexer.Curly_open } -> begin match parse_selection_set parser with
-        | Error e -> Error e
+        | Error e ->
+          Log.log "parse_op_def";
+          Error e
         | Ok span -> Ok (Source_pos.replace span {
             o_type = Query;
             o_name = None;
@@ -270,7 +275,9 @@ let parse_definition parser = Result_ext.(
     | { item = Graphql_lexer.Name "fragment" } ->
       parse_fragment_definition parser |> map (fun def -> Fragment def)
 
-    | span -> Error (Source_pos.map (fun t -> Unexpected_token t) span)
+    | span ->
+      Log.log "Failed to parse_definition!";
+      Error (Source_pos.map (fun t -> Unexpected_token t) span)
   )
 
 let parse_document parser =

@@ -12,7 +12,10 @@ type parseError =
 
 let make tokens = { tokens = tokens }
 
-let peek parser = List.hd parser.tokens
+let peek parser =
+  let h = List.hd parser.tokens in
+  Log.log ("peek: " ^ Graphql_lexer.string_of_token h.item);
+  h
 
 exception Internal_parse_error
 

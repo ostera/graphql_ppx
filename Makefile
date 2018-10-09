@@ -3,8 +3,8 @@ DUNE?=dune
 OS:=$(shell uname -s)
 
 build:
-	$(DUNE) build @graphql_ppx
-	cp _build/default/src/graphql_ppx.exe .
+	$(DUNE) build @graphql_typegen
+	cp _build/default/src/graphql_typegen.exe .
 
 test: build only-test
 
